@@ -1,0 +1,24 @@
+---
+layout: none
+noindex: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- assign sortedPages = site.pages |  sort_natural: 'title' -%}
+{% assign urlCount = 0 -%}
+{% for thePage in sortedPages -%}
+{% unless thePage.noindex -%}
+{% assign lastChar = thePage.url | slice: -1 -%}
+{% if lastChar == '/' -%}
+		{% assign urlPage = "index.htm" -%}
+	{% else %}
+		{% assign urlPage = "" -%}
+{% endif -%}
+{% assign urlCount = urlCount | plus: 1 %}
+	<url>
+		<loc>{{site.production_url}}{{thePage.url}}{{urlPage}}</loc>
+	</url>
+{%- endunless -%}
+{% endfor %}
+</urlset>
+<!-- count: {{urlCount}} -->

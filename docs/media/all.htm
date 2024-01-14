@@ -1,0 +1,50 @@
+---
+title: Complete List of Storage Media
+---
+<p>This is the complete list of storage media with information or links available here on FileFormat.Info.</p>
+
+<table class="table table-list table-striped">
+	<thead>
+		<tr>
+			<th align="left">ID</th>
+			<th align="left">Index Entries</th>
+			<th class="text-center">Images</th>
+			<th class="text-center">Links</th>
+			<th>&nbsp;</th>
+			<!--<th>Resources</th>-->
+		</tr>
+	</thead>
+	<tbody>
+		{% assign mediaCount = 0 -%}
+		{% assign sortedPages = site.pages |  sort_natural: 'title' -%}
+		{% for thePage in sortedPages -%}
+		{% if thePage.handle -%}
+		{% assign mediaCount = mediaCount | plus: 1 -%}
+		<tr>
+			<td><a href="{{thePage.url}}">[{{thePage.handle}}]</a></td>
+			<td>
+				{% for indexEntry in thePage.indexEntries -%}
+				{% if indexEntry == thePage.title -%}
+				<strong>{{indexEntry}}</strong><br />
+				{% else -%}
+				{{indexEntry}}<br />
+				{% endif -%}
+				{% endfor -%}
+			</td>
+			<td class="text-center">{{ thePage.images | size }}</td>
+			<td class="text-center">{{ thePage.links | size }}</td>
+			<td class="text-end">
+				<span class="badge bg-primary me-2">{{thePage.technology}}</span>
+				{%- if thePage.company -%}
+				<span class="badge bg-primary me-2">{{thePage.company}}</span>
+				{%- endif -%}
+				{%- for tag in thePage.tags -%}
+				<span class="badge bg-primary me-2">{{tag}}</span>
+				{%- endfor -%}
+			</td>
+		</tr>
+		{% endif -%}
+		{% endfor -%}
+	</tbody>
+</table>
+<p>Count: {{mediaCount}}</p>

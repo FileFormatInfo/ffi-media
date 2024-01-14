@@ -1,0 +1,74 @@
+<table class="table table-bordered table-striped table-auto">
+    <tbody>
+        <tr>
+            <td>Technology</td>
+            <td>{{page.technology}}</td>
+        </tr>
+        <tr>
+            <td>Dimensions (mm)</td>
+            <td>{{page.width}} x {{page.height}} x {{page.depth}}</td>
+        </tr>
+        {% if page.date -%}
+        <tr>
+            <td>Date Introduced</td>
+            <td>{{page.date}}</td>
+        </tr>
+        {% endif -%}
+        <tr>
+            <td valign="top">Storage Capacity</td>
+            <td>{% for capacity in page.capacities %}{{capacity}}<br/>{% endfor %}</td>
+        </tr>
+        {% if page.links -%}
+        <tr>
+            <td>Links</td>
+            <td>
+                {% for link in page.links -%}
+                {% if link.prefix %}{{link.prefix}}: {% endif %}<a href="{{link.url}}">{{link.title}}</a>{% if link.description %} - {{link.description}}{% endif %}<br/>
+                {% endfor -%}
+            </td>
+        </tr>
+        {% endif -%}
+        <tr>
+            <td>Also known as</td>
+            <td>
+				{% for indexEntry in page.indexEntries -%}
+				{% if indexEntry == page.title -%}
+				<!--{{indexEntry}}-->
+				{% else -%}
+				{{indexEntry}}<br />
+				{% endif -%}
+				{% endfor -%}
+			</td>
+        </tr>
+        {% if page.seealso -%}
+        <tr>
+            <td>See also</td>
+            <td>
+                {% for link in page.seealso -%}
+                {% if link.prefix %}{{link.prefix}}: {% endif %}<a href="{{link.url}}">{{link.title}}</a>{% if link.description %} - {{link.description}}{% endif %}<br />
+                {% endfor -%}
+            </td>
+        </tr>
+        {% endif -%}
+        </tr>
+    </tbody>
+</table>
+{% if page.images -%}
+<div class="row">
+    {% for image in page.images -%}
+    <div class="card m-3" style="width: 18rem;">
+        <img class="card-img-top" src="{{image.url}}" alt="{{image.title}}">
+        <div class="card-body">
+            <p class="card-text text-center">{{image.title}}</p>
+        </div>
+    </div>
+    {% endfor -%}
+</div>
+{% endif -%}
+{% if page.tags -%}
+<p>Tags: 
+    {% for tag in page.tags -%}
+    <span class="badge bg-primary">{{tag}}</span>
+    {% endfor -%}
+</p>
+{% endif -%}

@@ -1,0 +1,24 @@
+{% assign keys = page.keys | split: "," -%}
+<ul class="nav nav-tabs">
+{% for key in keys -%}
+{% if key == page.key -%}
+    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{key}}.htm">{{key | capitalize }}</a></li>
+{% else -%}
+    <li class="nav-item"><a class="nav-link" href="{{key}}.htm">{{key | capitalize}}</a></li>
+{% endif -%}
+{% endfor -%}
+</ul>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Storage Media</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in page.entries -%}
+        <tr>
+            <td><a href="{{entry.handle}}/index.htm">{{entry.text}}</a></td>
+        </tr>
+        {% endfor -%}
+    </tbody>
+</table>
