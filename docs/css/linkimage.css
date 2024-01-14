@@ -1,0 +1,19 @@
+/*
+ * slick tricks to put small images after hyperlinks
+ * unfortunately, it doesn't exclude the querystring
+ *
+ * and it doesn't work in IE, of course
+ */
+
+A[href*=".pdf"]
+{
+    background: url(/images/11x11/pdf.png) right center no-repeat;
+    padding-right:  13px;
+}
+
+A[href^="http:"]
+{
+    background: url(/images/11x11/remote.png) right center no-repeat;
+    padding-right:  13px;
+}
+

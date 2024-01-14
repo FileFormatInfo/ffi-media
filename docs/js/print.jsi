@@ -1,0 +1,16 @@
+<iframe id="iframePDF" src="about:blank" style="display:none"></iframe>
+<input type="button" value="Print Word" name="btnPrint1" onclick="PrintFrame('test.doc')"/>
+<input type="button" value="Print Excel" name="btnPrint2" onclick="PrintFrame('asdf.CSV')"/>
+<input type="button" value="Print PDF" name="btnPrint3" onclick="PrintFrame('test.pdf')"/>
+<span id="spanMess" style="display:none;color:red;"><h3>Preparing Document For Print</h3></span>
+
+<script type="text/javascript">
+  function PrintFrame(xFile){
+    parent.iframePDF.location.href = xFile;
+    document.getElementById("spanMess").style.display="block";
+    parent.iframePDF.onload = new function(){
+      setTimeout("parent.iframePDF.print();
+      parent.document.getElementById('spanMess').style.display='none';",5000);
+    }
+  }
+</script>

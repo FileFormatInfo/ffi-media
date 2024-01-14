@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="icon" href="/images/icon/i.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/images/icon/i.ico" type="image/x-icon" />
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+TABLE.header {
+    border-collapse:    collapse;
+    border-spacing:     0px;
+	font-size:          x-small;
+    font-family:        verdana,arial,helvetica,code2000,sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    }
+
+#content { margin-left: 16px; margin-right: 16px; }
+
+TABLE.header TD.logo {
+    background-color:   #efefef;
+    margin:             0px;
+    padding-left:       10px;
+    padding-top:        15px;
+    padding-bottom:     15px;
+    }
+
+TABLE.header TD.menu {
+    background-color:   #efefef;
+    margin:             0px;
+    padding:            10px;
+    text-align:         right;
+    vertical-align:     top;
+    }
+
+TABLE.header TD.search {
+    background-color:   #336699;
+    padding-left:       25px;
+    padding-bottom:     3px;
+    padding-top:        3px;
+    }
+
+TABLE.header TD.crumbtrail {
+    background-color:   #336699;
+    color:              #ffffff;
+    text-align:         right;
+    margin:             0px;
+    padding:            5px;
+    }
+
+TABLE.header TD.crumbtrail A {
+    color:              #ffffff;
+    }
+	</style>
+
+<title>HexDump Online: show contents of a binary file in hex</title>
+</head>
+<body>
+<table class="header">
+	<tr>
+		<td class="logo"><a href="/index.htm" target="_top"><img src="/images/header/ffilogo.png" border="0" alt="FileFormatInfo Logo" width="260" height="26" /></a></td>
+		<td class="menu">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="search"><form method="get" action="/search/search.htm"><input type="text" name="q" size="15" alt="site search query" /><input type="submit" value="Search" /></form></td>
+		<td class="crumbtrail">You&#xa0;are&#xa0;in&#xa0;<a href="/index.dir"><img height="16" width="16" align="middle" border="0" src="/images/16x16/t-folder.png" alt="Browse directories" title="Browse directories" /></a> <a href="/index.htm">FileFormat.Info</a>&nbsp;&raquo;&nbsp;<a href="/tool/index.dir"><img height="16" width="16" align="middle" border="0" src="/images/16x16/t-folder.png" alt="Browse directories" title="Browse directories" /></a> <a href="/tool/index.htm">Tools</a></td>
+	</tr>
+
+</table>
+<div id="content">
+
+<table class="plain" width="100%">
+<tr>
+<td class="text-center">
+<script type="text/javascript"><!--
+google_ad_client = "pub-6975096118196151";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_channel ="9020960418";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "6F6F6F";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</td>
+</tr>
+</table>
+
+<h1>Online HexDumpxx Utility</h1>
+<hr />
+<h2>Summary</h2>
+
+<p>HexDump lists the contents of a file in hex and ASCII.  It is useful for seeing <i>exactly</i> what is in a file, byte-by-byte.
+I also have a <a href="hexdump/index.htm">command line version of hexdump</a> that you can download and run.</p>
+<hr/>
+<h2>Detail</h2>
+<form action="hexdump.htm" enctype="multipart/form-data" method="post" name="theForm">
+<table class="dataentry">
+   <tr>
+        <th colspan="2">Online Version</th>
+
+    </tr>
+	<tr>
+		<td>File </td>
+		<td><input type="file" name="stdin" size="60" /></td>
+	</tr>
+    <tr>
+        <td>Stop after</td>
+        <td><input type="text" maxlength="12" name="max" size="12" value="" /> bytes</td>
+
+	<tr>
+		<td>&nbsp;</td>
+		<td><input type="submit" value="Submit" /></td>
+	</tr>
+</table>
+</form>
+<table class="plain" width="100%">
+<tr>
+<td class="text-center">
+<script type="text/javascript"><!--
+google_ad_client = "pub-6975096118196151";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_channel ="9020960418";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "0000FF";
+google_color_url = "008000";
+google_color_text = "6F6F6F";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+</td>
+</tr>
+</table>
+
+<hr />
+<table class="footer">
+	<tr>
+		<td class="text-center" width="50%"><a href="/about/feedback.htm?subject=%2Ftool%2Fhexdump.htm&amp;next=%2Ftool%2Fhexdump.htm"><img height="20" width="20" align="middle" border="0" src="/images/20x20/envelopeopen.png" alt="Let us know what you think about this page" title="Let us know what you think about this page" /></a>&nbsp;<a href="/about/feedback.htm?subject=%2Ftool%2Fhexdump.htm&amp;next=%2Ftool%2Fhexdump.htm">Feedback</a></td>
+		<td class="text-center" width="50%"><a href="/tool/hexdump.htm?mode=print"><img height="20" width="20" align="middle" border="0" src="/images/20x20/print.png" alt="Printer friendly version" title="Printer friendly version" /></a>&nbsp;<a href="/tool/hexdump.htm?mode=print">Printer&#xa0;friendly</a></td>
+	</tr>
+
+</table>
+<hr/>
+<p class="text-center"><a href="/about/tos.htm">Terms of Service</a> | <a href="/about/privacy.htm">Privacy Policy</a> | <a href="/about/contact.htm">Contact Info</a></p>
+</div>
+</body>
+</html>

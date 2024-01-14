@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="referrer" content="unsafe-url">
+	<title>{% if page.h1 %}{{ page.title }}{% else %}{{ page.title }} - {{site.title}}{% endif %}</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet" />
+	<script src="/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid p-3 bg-light d-none d-md-block">
+		<a href="/index.htm"><img src="/images/logos/ffi-horiz-dark.svg"></a>
+	</div>
+	<nav class="navbar bg-body-tertiary d-print-none" style="background-color: #336699 !important;">
+		<div class="container-fluid">
+			<form action="/search/search.htm" class="d-flex d-none d-md-block" method="get" role="search">
+				<div class="input-group">
+					<input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search">
+					<button class="btn btn-light" type="submit">&#x1f50d;</button>
+				</div>
+			</form>
+			<a class="navbar-brand d-md-none" href="/index.htm">
+				<img src="/images/logos/ffi-horiz-light.svg" alt="Bootstrap" style="height:1.5rem;">
+			</a>
+			<span class="navbar-text text-white-50">
+				<a class="text-white text-decoration-none" href="/index.htm">FileFormat.Info</a>&nbsp;&raquo;&nbsp;<a
+					class="text-white text-decoration-none" href="/media/index.htm">Storage&#xa0;Media</a> </span>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col">
+			{% include adsense.html %}
+			<h1>{% if page.icon %}<img src="{{page.icon}}" alt="" /> {%endif%}{% if page.h1 %}{{page.h1}}{% else %}{{page.title}}{% endif %}</h1>
+			<hr />
