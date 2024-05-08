@@ -1,0 +1,12 @@
+---
+noindex: true
+layout: none
+---
+#
+# robots.txt for a FileFormat.Info origin server
+#
+# everything forbidden: indexing should be on the main www.fileformat.info site
+#
+
+User-agent: *
+Disallow: /
