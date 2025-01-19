@@ -17,7 +17,7 @@
 			for (var loop = 0; loop < sharesites.length; loop++) {
 				var site = sharesites[loop];
                 shareDiv.append($("<a>")
-		                    .attr("href", "https://simpleshare.io/go?site=" + site.site + "&ga=UA-328425-1&url=" + encodeURIComponent(window.location) + "&text=" + encodeURIComponent(document.title))
+		                    .attr("href", "https://simpleshare.dev/go?site=" + site.site + "&ga=UA-328425-1&url=" + encodeURIComponent(window.location) + "&text=" + encodeURIComponent(document.title))
 		                    .attr("title", "Share on " + site.name)
 							.css("padding-left", "12px")
 							.append($("<img>")
