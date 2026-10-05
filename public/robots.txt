@@ -1,0 +1,7 @@
+#
+# robots.txt for ffi-media
+#
+# this is a subsite: only pages on www should be indexed
+
+User-Agent: *
+Disallow: /

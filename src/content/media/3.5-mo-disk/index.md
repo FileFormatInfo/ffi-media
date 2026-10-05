@@ -1,0 +1,18 @@
+---
+title: "3.5 inch Magento-Optical (MO) Disk"
+handle: "3.5-mo-disk"
+company: "Canon"
+indexEntries: ["3.5 inch Magento-Optical (MO) Disk", "MO Disk - 3.5 inch", "Magneto-Optical Disk - 3.5 inch", "Gigamo"]
+imgCount: 3
+technology: "magneto-optical-disk"
+capacities: [ "128 MB", "1.3 GB" ]
+width: 93.3
+height: 89.7
+depth: 6.7
+icon: "3.5-mo-disk.png"
+links:
+  - prefix: "Wikipedia"
+    title: "Magneto-optical_drive"
+    url: "http://en.wikipedia.org/wiki/Magneto-optical_drive"
+---
+{% include media-content.html %}

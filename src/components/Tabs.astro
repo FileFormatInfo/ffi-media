@@ -1,0 +1,31 @@
+---
+
+interface Props {
+	current?: string;
+}
+const { current = "a" } = Astro.props;
+
+const tabs: string[] = [];
+
+for (let ch = "A".charCodeAt(0); ch <= "Z".charCodeAt(0); ch++) {
+	tabs.push(String.fromCharCode(ch));
+}
+tabs.push("Other");
+
+---
+
+<ul class="nav nav-tabs mb-3">
+	{tabs.map((theTab) => {
+		const slug = theTab.toLowerCase();
+		return (
+			<li class="nav-item">
+				<a
+					class={`nav-link${current === slug ? " active" : ""}`}
+					href={`/media/${slug}.html`}
+				>
+					{theTab}
+				</a>
+			</li>
+		);
+	})}
+</ul>

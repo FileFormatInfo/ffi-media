@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+	current: string;
+}
+
+const { current } = Astro.props;
+const entries = await getCollection("entries");
+
+type indexItem = {
+    text: string;
+    handle: string;
+}
+
+let items:indexItem[] = [];
+
+let filterFn = current == "other" ? (x:string) => /^[0-9]/.test(x) : (x) => x.toLowerCase().startsWith(current);
+
+for (const entry of entries) {
+    for (const indexEntry of entry.data.indexEntries) {
+        if (filterFn(indexEntry)) {
+            items.push({
+                text: indexEntry,
+                handle: entry.data.handle
+            })
+        }
+    }
+}
+
+items.sort((left, right) => left.text.localeCompare(right.text))
+---
+
+<table class="table table-striped">
+    <tbody>
+    {items.map(({ text, handle }) => (
+        <tr>
+            <td><a href={`/media/${handle}/`}>{text}</a></td>
+        </tr>
+		))}
+    </tbody>
+</table>

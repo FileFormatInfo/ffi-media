@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+
+
+const entries = await getCollection("entries");
+const { pathname } = Astro.url;
+
+const paths = pathname.slice(1).split("/");
+if (pathname.endsWith(".html")) {
+	paths.pop();
+}
+
+if (paths.length > 0 && paths[paths.length - 1] == "") {
+	paths.pop();
+}
+
+
+const pathMap = new Map<String, String>();
+
+let currentPath = "/";
+for (const path of paths) {
+	currentPath += path + "/"
+	let text:string;
+	if (path == "media") {
+		text = "Storage\u00A0Media";
+	} else {
+		const entry = entries.filter(e => e.data.handle == path);
+		if (entry.length == 1) {
+			text = entry[0].data.title;
+		} else {
+			text = path.charAt(0).toUpperCase() + path.slice(1);
+		}
+	}
+	pathMap.set(currentPath, text);
+}
+
+---
+<div class="container-fluid p-3 bg-light d-none d-md-block">
+	<a href="/"><img src="https://www.fileformat.info/images/logos/ffi-horiz-dark.svg"></a>
+</div>
+<nav class="navbar bg-body-tertiary d-print-none" style="background-color: #336699 !important;">
+	<div class="container-fluid">
+		<form action="/search/search.htm" class="d-flex d-none d-md-block" method="get" role="search">
+			<div class="input-group">
+				<input class="form-control" name="q" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-light" type="submit">&#x1f50d;</button>
+			</div>
+		</form>
+		<a class="navbar-brand d-md-none" href="/index.htm">
+			<img src="https://www.fileformat.info/images/logos/ffi-horiz-light.svg" alt="Bootstrap" style="height:1.5rem;">
+		</a>
+		<span class="navbar-text text-white-50">
+			<a class="text-white text-decoration-none" href="/">FileFormat.Info</a>
+			{[...pathMap].map(([url, text]) => (
+				<>&nbsp;&raquo;&nbsp;<a class="text-white text-decoration-none" href={url}>{text}</a></>
+			))}
+		</span>
+	</div>
+</nav>

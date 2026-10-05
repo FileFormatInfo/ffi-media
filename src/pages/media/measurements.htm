@@ -1,0 +1,205 @@
+<%@ page contentType="text/html;charset=utf-8"
+		 errorPage="/_err/500.htm"
+		 import="java.io.*,
+				 java.sql.*,
+				 java.text.*,
+				 java.util.*,
+				 java.util.regex.*,
+				 info.fileformat.db.*,
+				 info.fileformat.dir.*,
+				 info.fileformat.i18n.*,
+				 info.fileformat.ui.*,
+				 info.fileformat.util.*,
+				 info.fileformat.web.*"
+%><%
+
+	Locale loc = LocaleCache.getLocale(request);
+
+	boolean ifManage = StringUtil.toBoolean((String)request.getAttribute("manage"));
+
+	NumberFormat nf = NumberFormat.getNumberInstance(loc);
+	nf.setMaximumFractionDigits(1);
+	nf.setMinimumFractionDigits(1);
+
+%><!DOCTYPE html>
+<html>
+<head>
+<%UI.getMeta(out, application, request);%>
+<link rel="stylesheet" type="text/css" href="/css/tab.css" />
+<title>Storage Media Sizes</title>
+</head>
+<body>
+<%UI.getHeader(out, application, request, response);%>
+<%info.fileformat.ad.AdFactory.getAdProvider(request).append(out, "media");%>
+<h1>Storage Media Sizes</h1>
+<hr />
+<p>These are the actual measured sizes of the storage media in my possession.</p>
+<table class="table table-list table-striped">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Description</th>
+			<th class="text-end">Size (mm)</th>
+			<th class="text-end">Volume (mm<sup>2</sup>)</th>
+			<th class="text-end">Capacity</th>
+			<th class="text-end">Bit Density</th>
+		</tr>
+	</thead>
+	<tbody>
+<%
+	int row = 0;
+	int errorCount = 0;
+
+	Database db = Database.getDatabase("ffi");
+
+	Pattern sizePattern = Pattern.compile("(\\d+(\\.\\d+)?)\\s*x\\s*(\\d+(\\.\\d+)?)(\\s*x\\s*(\\d+(\\.\\d+)?))?");
+	Pattern capacityPattern = Pattern.compile("(\\d+(\\.\\d+)?)\\s*((GB)|(MB)|(KB?))?");
+
+	ResultSet rs = db.query("SELECT BkbHandle, BkbTitle, P1.BkpValue AS size, P2.BkpValue as capacity FROM BookBase"
+		+ " LEFT OUTER JOIN BookProperty P1 ON BkbKey = P1.BkpKeyBkb AND P1.BkpDateDel > NOW() AND P1.BkpCode = 'size'"
+		+ " LEFT OUTER JOIN BookProperty P2 ON BkbKey = P2.BkpKeyBkb AND P2.BkpDateDel > NOW() AND P2.BkpCode = 'capacity'"
+		+ " WHERE BkbDateDel > NOW() AND BkbType = 'media' ORDER BY BkbTitle");
+
+	while (rs.next())
+	{
+		String handle = rs.getString("BkbHandle");
+		String description = rs.getString("BkbTitle");
+		String size = rs.getString("size");
+		String capacity = rs.getString("capacity");
+
+		out.print("\t<tr class=\"row");
+		out.print(row++ % 2);
+		out.println("\">");
+
+		out.print("\t\t<td valign=\"top\"><a href=\"/media/");
+		HtmlEncoder.encode(out, handle);
+		out.print("/index.htm\">[");
+		HtmlEncoder.encode(out, handle);
+		out.print("]</a>");
+		out.println("</td>");
+
+		out.print("\t\t<td>");
+		HtmlEncoder.encode(out, description);
+		out.println("</td>");
+
+		out.print("\t\t<td class=\"text-end\">");
+		if (StringUtil.isEmpty(size))
+		{
+			out.print("<i>(not measured)</i>");
+			errorCount++;
+		}
+		else
+		{
+			HtmlEncoder.encode(out, size);
+		}
+		out.println("</td>");
+
+		double volume = 0.0;
+		out.print("\t\t<td class=\"text-end\">");
+		if (StringUtil.isEmpty(size))
+		{
+			out.print("&nbsp;");
+		}
+		else
+		{
+			Matcher m = sizePattern.matcher(size);
+			if (m.matches() == false)
+			{
+				errorCount++;
+				out.print("<i>(unable to parse)</i>");
+			}
+			else
+			{
+				double d1 = IntUtil.parseDouble(m.group(1));
+				double d2 = IntUtil.parseDouble(m.group(3));
+				double d3 = IntUtil.parseDouble(m.group(6), -1);
+				if (d3 <= 0.0)
+				{
+					volume = (d1 / 2) * (d1 / 2) * Math.PI * d2;
+				}
+				else
+				{
+					volume = d1 * d2 * d3;
+				}
+
+				/*String units = "mm<sup>2</sup>";
+
+				if (volume >= 1000.0)
+				{
+					units = "cm<sup>2</sup>";
+					volume /= 1000.0;
+				}*/
+
+				HtmlEncoder.encode(out, nf.format(volume));
+				//out.print(' ');
+				//out.print(units);
+			}
+		}
+		out.println("</td>");
+
+		double bytes = 0.0;
+		out.print("\t\t<td class=\"text-end\">");
+		if (StringUtil.isEmpty(capacity))
+		{
+			out.print("&nbsp;");
+		}
+		else
+		{
+			Matcher m = capacityPattern.matcher(capacity);
+			if (m.matches() == false)
+			{
+				errorCount++;
+				out.print("<i>(unable to parse)</i>");
+			}
+			else
+			{
+				HtmlEncoder.encode(out, capacity);
+				bytes = IntUtil.parseDouble(m.group(1));
+
+				String units = m.group(3);
+				if (StringUtil.isEmpty(units))
+				{
+				}
+				else if (units.equals("GB"))
+				{
+					bytes *= 1024 * 1024 * 1024;
+				}
+				else if (units.equals("MB"))
+				{
+					bytes *= 1024 * 1024;
+				}
+				else if (units.equals("KB") || units.equals("K"))
+				{
+					bytes *= 1024;
+				}
+				else
+				{
+					out.print("<i>(unknown units)</i>");
+				}
+			}
+		}
+		out.println("</td>");
+
+		out.print("\t\t<td class=\"text-end\">");
+		if (bytes <= 0.0 || volume <= 0.0)
+		{
+			out.print("&nbsp;");
+		}
+		else
+		{
+			HtmlEncoder.encode(out, nf.format(8 * bytes/volume));
+		}
+		out.println("</td>");
+
+		out.println("\t</tr>");
+	}
+	rs.close();
+	db.close();
+%>	</tbody>
+</table>
+<p>Total: <%=row%></p>
+<p>Errors: <%=errorCount%></p>
+<%info.fileformat.ad.AdFactory.getAdProvider(request).append(out, "media");%>
+<%UI.getFooter(out, application, request);%>
+</body>
+</html>

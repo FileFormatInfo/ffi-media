@@ -1,0 +1,50 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('entries'))
+	.sort((left, right) => left.data.title.localeCompare(right.data.title))
+
+
+
+const tagMap = new Map<string, typeof entries>();
+for (const entry of entries) {
+	for (const tag of entry.data.tags ?? []) {
+		const existing = tagMap.get(tag) ?? [];
+		existing.push(entry);
+		tagMap.set(tag, existing);
+	}
+}
+const sortedTags = [...tagMap.keys()].sort();
+---
+
+<Layout title="Storage Media by Tag - FileFormat.Info" h1="Tags">
+	<table class="table table-striped border-top">
+		<tbody>
+			{sortedTags.map((tag) => {
+				const tagPosts = [...(tagMap.get(tag) ?? [])].sort((a, b) => a.data.title.localeCompare(b.data.title));
+				return (
+				<tr>
+					<td><a class="badge text-bg-secondary" href={`?tag=${tag}`}>{tag.replaceAll("_", " ")}</a></td>
+					<td class="w-100"><details id={tag}>
+						<summary>{tagPosts.length}</summary>
+						{tagPosts.map((post) => (
+							<>
+							<a href={`/media/${post.handle}/`}>{post.data.title}</a><br/>
+							</>
+						))}
+					</details>
+					</td>
+				</tr>
+				);
+			})}
+		</tbody>
+	</table>
+
+	<script is:inline>
+		const tag = new URLSearchParams(window.location.search).get('tag');
+		if (tag) {
+			document.getElementById(tag).open = true;
+		}
+	</script>
+</Layout>

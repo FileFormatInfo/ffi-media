@@ -1,0 +1,88 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+	const entries = await getCollection("entries");
+
+	return entries.map((entry) => ({
+		params: { slug: entry.data.handle },
+		props: { entry },
+	}));
+}
+
+interface Props {
+	title: string;
+}
+
+const { entry } = Astro.props;
+---
+
+<Layout title={entry.data.title}>
+
+{ entry.data.indexEntries && (
+	<p>Also known as:
+	{entry.data.indexEntries.join(", ")}
+	</p>
+)}
+
+<h2>Summary</h2>
+<table class="table table-bordered table-striped table-auto">
+	<tr>
+		<td>Technology</td>
+		<td>{entry.data.technology}</td>
+	</tr>
+{ entry.data.width && entry.data.height && entry.data.depth && (
+	<tr>
+		<td>Dimensions</td>
+		<td>{entry.data.height} mm by {entry.data.width} mm by {entry.data.depth} mm</td>
+	</tr>
+)}
+	<tr>
+		<td>Date introduced</td>
+		<td>1982</td>
+	</tr>
+{ entry.data.capacities && (
+	<tr>
+		<td valign="top">Storage Capacity</td>
+		<td>
+			{entry.data.capacities.map( (cap) => <>{cap}<br/></>
+			)}
+		</td>
+	</tr>
+)}
+
+{ entry.data.links && entry.data.links.length > 0 && (
+	<>
+	{entry.data.links.map( (link) => 
+	<tr>
+		<td>{link.prefix}</td>
+		<td><a href={link.url}>{link.title}</a></td>
+	</tr>
+	)}
+	</>
+)}
+{ entry.data.seealso && (
+	<tr>
+		<td valign="top">See Also</td>
+		<td>
+			{entry.data.seealso.map( (also) => 
+				<>
+					{ also.description && <>{also.description}: </>}
+					<a href={`/media/${also.url}/`}>{also.title}</a>
+					<br/>
+				</>
+			)}
+		</td>
+	</tr>
+)}
+</table>
+
+{entry.data.images.map( (image) => (
+	<p>
+		{image.title}: <br/>
+		<img src={`${image.url}`} style="image-resolution: from-image;"/>
+	</p>
+))}
+
+</Layout>

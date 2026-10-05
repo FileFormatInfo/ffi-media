@@ -1,0 +1,19 @@
+a.badge {
+  text-decoration: none;
+}
+
+img.contact {
+  height: 16px;
+  width: 16px;
+}
+
+img.fa {
+  height: 1.5rem;
+  width: 1.5rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.navbar-brand {
+	font-size: 1.45rem;
+}

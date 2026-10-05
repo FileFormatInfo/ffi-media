@@ -1,0 +1,41 @@
+---
+import "@/styles/global.css";
+import Navbar from "@/components/Navbar.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE_URL } from "@/consts";
+
+interface Props {
+	title: string;
+	h1?: string;
+	subtitle?: string;
+	tags?: string[];
+	meta?: string;
+	isHome?: boolean;
+}
+
+const { title, h1, subtitle, tags = [], meta, isHome = false } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="unsafe-url">
+<link href="https://www.fileformat.info/css/bootstrap.min.css" rel="stylesheet" />
+<script is:inline src="https://www.fileformat.info/js/bootstrap.bundle.min.js"></script>
+	<title>{title}{!h1 ? " - FileFormat.Info" : ""}</title>
+</head>
+<body>
+	<Navbar />
+	<div class="container">
+		<div class="row">
+			<div class="col pt-2">
+				<h1>{h1 ?? title}{subtitle && <small> - {subtitle}</small>}</h1>
+				<slot />
+			</div><!--/col-->
+		</div><!--/row-->
+		<hr>
+		<Footer />
+	</div><!--/container-->
+</body>
+</html>

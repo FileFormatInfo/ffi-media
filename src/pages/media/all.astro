@@ -1,0 +1,53 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('entries'))
+	.sort((left, right) => left.data.title.localeCompare(right.data.title))
+---
+
+<Layout title="Complete List of Storage Media">
+
+<p>This is the complete list of storage media with information or links available here on FileFormat.Info.</p>
+
+<table class="table table-list table-striped">
+	<thead>
+		<tr>
+			<th align="left">ID</th>
+			<th align="left">Index Entries</th>
+			<th class="text-center">Images</th>
+			<th class="text-center">Links</th>
+			<th>&nbsp;</th>
+			<!--<th>Resources</th>-->
+		</tr>
+	</thead>
+	<tbody>
+    { entries.map((entry) => (
+		<tr>
+			<td><a href={`/media/${entry.data.handle}/`}>[{entry.data.handle}]</a></td>
+			<td>
+				<strong>{entry.data.title}</strong>
+                { entry.data.indexEntries && entry.data.indexEntries
+                    .filter( (indexEntry) => indexEntry != entry.data.title)
+                    .sort( (left, right) => left.localeCompare(right))
+                    .map((indexEntry) => (
+                   <br/><span>{indexEntry}</span>
+                ))}
+            </td>
+			<td class="text-center">{entry.data.images.length}</td>
+			<td class="text-center">{entry.data.links?.length || 0}</td>
+			<td class="text-end">
+				<span class="badge bg-primary me-2">{entry.data.technology}</span>
+				{ entry.data.company && (<span class="badge bg-primary me-2">{entry.data.company}</span> )}
+                { entry.data.tags && entry.data.tags.map((tag) => (
+				<span class="badge bg-primary me-2">{tag}</span>
+                ))}
+            </td>
+		</tr>
+    ))}
+	</tbody>
+</table>
+
+
+
+</Layout>

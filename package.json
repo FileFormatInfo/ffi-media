@@ -1,0 +1,25 @@
+{
+  "name": "ffi-media",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "postbuild": "node bin/copy-content-assets.mjs",
+    "preview": "wrangler dev",
+    "astro": "astro",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.2.5",
+    "@astrojs/rss": "^4.0.11",
+    "astro": "^7.2.9",
+    "marked": "^15.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "wrangler": "^4.60.0"
+  }
+}
